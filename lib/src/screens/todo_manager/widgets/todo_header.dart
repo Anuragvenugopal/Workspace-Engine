@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import '../../../../core/widgets/app_text.dart';
 import '../../../../features/profiles/domain/entities/profile.dart';
+import '../../../../utils/app_colors.dart';
 
 class TodoHeader extends StatelessWidget {
   final Profile? activeProfile;
@@ -11,21 +13,15 @@ class TodoHeader extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(
+        AppText(
           '${activeProfile?.name ?? ''} Tasks',
-          style: const TextStyle(
-            color: Colors.black87,
-            fontWeight: FontWeight.bold,
-            fontSize: 20,
-          ),
+          color: AppColors.black87,
+          fontWeight: FontWeight.bold,
+          fontSize: 20,
         ),
-        const Text(
+        const AppText.caption(
           'Manage your daily progress',
-          style: TextStyle(
-            color: Colors.black54,
-            fontSize: 12,
-            fontWeight: FontWeight.w400,
-          ),
+          color: AppColors.black54,
         ),
       ],
     );

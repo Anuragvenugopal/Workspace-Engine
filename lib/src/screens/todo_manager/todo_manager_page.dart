@@ -4,7 +4,6 @@ import 'package:provider/provider.dart';
 import '../../../core/theme/app_theme.dart';
 import '../../../providers/profile_provider.dart';
 import '../../../providers/todo_provider.dart';
-import '../../../utils/app_colors.dart';
 import '../../../utils/responsive_size.dart';
 import 'widgets/add_todo_sheet.dart';
 import 'widgets/todo_list.dart';
@@ -92,6 +91,9 @@ class _TodoManagerPageState extends State<TodoManagerPage> {
               );
             },
             backgroundColor: color,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(16),
+            ),
             icon: const Icon(Icons.add_task_rounded, color: Colors.white),
             label: const Text(
               'Add Task',
@@ -112,10 +114,6 @@ class _TodoManagerPageState extends State<TodoManagerPage> {
       builder: (context, todoProvider, child) {
         final state = todoProvider.state;
         if (state is! TodoLoaded) return const SizedBox.shrink();
-
-        final progress = state.totalCount == 0
-            ? 0.0
-            : state.completedCount / state.totalCount;
 
         return Padding(
           padding: EdgeInsets.only(right: context.w(24)),

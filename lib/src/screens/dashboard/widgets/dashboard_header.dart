@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import '../../../../core/theme/app_theme.dart';
+import '../../../../core/widgets/app_text.dart';
 import '../../../../features/profiles/domain/entities/profile.dart';
+import '../../../../utils/app_colors.dart';
 import '../../../../utils/responsive_size.dart';
 
 class DashboardHeader extends StatelessWidget {
@@ -19,7 +21,7 @@ class DashboardHeader extends StatelessWidget {
             onPressed: () => Scaffold.of(innerContext).openDrawer(),
             icon: Icon(
               Icons.menu_rounded,
-              color: Colors.black87,
+              color: AppColors.black87,
               size: context.h(28),
             ),
           ),
@@ -28,21 +30,17 @@ class DashboardHeader extends StatelessWidget {
         Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(
+            AppText(
               'Hey, ${activeProfile?.name ?? 'Workspace User'}',
-              style: TextStyle(
-                fontSize: context.h(26),
-                fontWeight: FontWeight.bold,
-                color: Colors.black87,
-              ),
+              fontSize: context.h(26),
+              fontWeight: FontWeight.bold,
+              color: AppColors.black87,
             ),
             SizedBox(height: context.h(4)),
-            Text(
+            AppText(
               _getHeaderSubtitle(activeProfile?.type),
-              style: TextStyle(
-                fontSize: context.h(14),
-                color: Colors.black54,
-              ),
+              fontSize: context.h(14),
+              color: AppColors.black54,
             ),
           ],
         ),

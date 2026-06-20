@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import '../../../../core/theme/app_theme.dart';
+import '../../../../core/widgets/app_text.dart';
 import '../../../../features/profiles/domain/entities/profile.dart';
 import '../../../../providers/profile_provider.dart';
+import '../../../../utils/app_colors.dart';
 import '../../../../utils/responsive_size.dart';
 
 class DashboardDrawer extends StatelessWidget {
@@ -26,8 +28,8 @@ class DashboardDrawer extends StatelessWidget {
         child: Container(
           padding: EdgeInsets.only(top: context.h(24)),
           child: ListTileTheme(
-            textColor: Colors.white,
-            iconColor: Colors.white,
+            textColor: AppColors.white,
+            iconColor: AppColors.white,
             child: Column(
               mainAxisSize: MainAxisSize.max,
               children: [
@@ -37,7 +39,7 @@ class DashboardDrawer extends StatelessWidget {
                   margin: EdgeInsets.only(bottom: context.h(24)),
                   clipBehavior: Clip.antiAlias,
                   decoration: const BoxDecoration(
-                    color: Colors.black26,
+                    color: Color(0x42000000),
                     shape: BoxShape.circle,
                   ),
                   child: Image.asset(
@@ -46,17 +48,15 @@ class DashboardDrawer extends StatelessWidget {
                     errorBuilder: (context, error, stackTrace) => const Icon(
                       Icons.person,
                       size: 50,
-                      color: Colors.white,
+                      color: AppColors.white,
                     ),
                   ),
                 ),
-                Text(
+                AppText(
                   'Workspaces',
-                  style: TextStyle(
-                    fontSize: context.h(22),
-                    fontWeight: FontWeight.bold,
-                    color: Colors.white,
-                  ),
+                  fontSize: context.h(22),
+                  fontWeight: FontWeight.bold,
+                  color: AppColors.white,
                 ),
                 SizedBox(height: context.h(24)),
                 Expanded(
@@ -72,19 +72,17 @@ class DashboardDrawer extends StatelessWidget {
                             horizontal: context.w(32), vertical: context.h(4)),
                         leading: Icon(
                           AppTheme.getProfileIcon(profile.type),
-                          color: isActive ? Colors.white : Colors.white70,
+                          color: isActive ? AppColors.white : AppColors.white.withAlpha(178),
                           size: context.h(28),
                         ),
-                        title: Text(
+                        title: AppText(
                           profile.name,
-                          style: TextStyle(
-                            fontSize: context.h(18),
-                            fontWeight: isActive ? FontWeight.bold : FontWeight.w500,
-                            color: isActive ? Colors.white : Colors.white70,
-                          ),
+                          fontSize: context.h(18),
+                          fontWeight: isActive ? FontWeight.bold : FontWeight.w500,
+                          color: isActive ? AppColors.white : AppColors.white.withAlpha(178),
                         ),
                         trailing: isActive
-                            ? const Icon(Icons.check_circle_rounded, color: Colors.white)
+                            ? const Icon(Icons.check_circle_rounded, color: AppColors.white)
                             : null,
                         onTap: () {
                           profileProvider.switchProfile(profile);

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import '../../../../core/widgets/app_text.dart';
 import '../../../../utils/app_colors.dart';
 import '../../../../utils/responsive_size.dart';
 import '../../../../providers/events_provider.dart';
@@ -26,12 +27,12 @@ class EventErrorView extends StatelessWidget {
             color: AppColors.error,
           ),
           SizedBox(height: context.h(16)),
-          Text(message),
+          AppText.body(message, color: AppColors.secondaryText),
           SizedBox(height: context.h(24)),
           FilledButton.icon(
             onPressed: () => context.read<EventsProvider>().loadEventById(eventId),
             icon: const Icon(Icons.refresh_rounded),
-            label: const Text('Retry'),
+            label: const AppText('Retry', color: AppColors.white, fontWeight: FontWeight.w600),
           ),
         ],
       ),

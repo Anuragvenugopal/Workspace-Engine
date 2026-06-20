@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import '../../../../core/widgets/app_text.dart';
 import '../../../../utils/app_colors.dart';
 import '../../../../utils/responsive_size.dart';
 import '../../../../features/events/domain/entities/global_event.dart';
@@ -23,7 +24,7 @@ class EventDetailView extends StatelessWidget {
           expandedHeight: 320,
           pinned: true,
           backgroundColor: color,
-          iconTheme: const IconThemeData(color: Colors.white),
+          iconTheme: const IconThemeData(color: AppColors.white),
           flexibleSpace: FlexibleSpaceBar(
             background: Stack(
               fit: StackFit.expand,
@@ -47,16 +48,15 @@ class EventDetailView extends StatelessWidget {
                     ),
                   ),
                 ),
-                // Gradient overlay for better contrast
                 DecoratedBox(
                   decoration: BoxDecoration(
                     gradient: LinearGradient(
                       begin: Alignment.topCenter,
                       end: Alignment.bottomCenter,
                       colors: [
-                        Colors.black.withAlpha(127),
-                        Colors.transparent,
-                        Colors.black.withAlpha(51),
+                        AppColors.primaryText.withAlpha(127),
+                        AppColors.transparent,
+                        AppColors.primaryText.withAlpha(51),
                       ],
                     ),
                   ),
@@ -67,7 +67,7 @@ class EventDetailView extends StatelessWidget {
         ),
         SliverToBoxAdapter(
           child: Transform.translate(
-            offset: const Offset(0, -24), // Overlap the hero image
+            offset: const Offset(0, -24),
             child: Container(
               decoration: BoxDecoration(
                 color: Theme.of(context).scaffoldBackgroundColor,
@@ -84,19 +84,14 @@ class EventDetailView extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    SizedBox(height: context.h(16)), // Added extra top space
-                    // Title
-                    Text(
+                    SizedBox(height: context.h(16)),
+                    AppText(
                       event.title,
-                      style: TextStyle(
-                        fontSize: context.h(24),
-                        fontWeight: FontWeight.bold,
-                        color: Colors.black87,
-                        height: 1.2,
-                      ),
+                      fontSize: context.h(24),
+                      fontWeight: FontWeight.bold,
+                      color: AppColors.black87,
                     ),
                     SizedBox(height: context.h(16)),
-                    // Event date chip
                     Container(
                       padding: EdgeInsets.symmetric(
                         horizontal: context.w(12),
@@ -111,38 +106,29 @@ class EventDetailView extends StatelessWidget {
                         children: [
                           Icon(Icons.event_rounded, size: context.h(16), color: color),
                           SizedBox(width: context.w(6)),
-                          Text(
+                          AppText(
                             DateFormat('EEEE, MMM dd').format(event.eventDate),
-                            style: TextStyle(
-                              fontSize: context.h(13),
-                              color: color,
-                              fontWeight: FontWeight.w700,
-                            ),
+                            fontSize: context.h(13),
+                            color: color,
+                            fontWeight: FontWeight.w700,
                           ),
                         ],
                       ),
                     ),
                     SizedBox(height: context.h(24)),
-                    
                     const Divider(),
                     SizedBox(height: context.h(24)),
-                    
-                    Text(
+                    AppText(
                       'About this Event',
-                      style: TextStyle(
-                        fontSize: context.h(18),
-                        fontWeight: FontWeight.w700,
-                        color: color,
-                      ),
+                      fontSize: context.h(18),
+                      fontWeight: FontWeight.w700,
+                      color: color,
                     ),
                     SizedBox(height: context.h(12)),
-                    Text(
+                    AppText(
                       event.description,
-                      style: TextStyle(
-                        fontSize: context.h(15),
-                        height: 1.6,
-                        color: Colors.black87,
-                      ),
+                      fontSize: context.h(15),
+                      color: AppColors.black87,
                     ),
                     SizedBox(height: context.h(40)),
                   ],

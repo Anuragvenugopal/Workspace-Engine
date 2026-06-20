@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import '../../../../core/widgets/app_text.dart';
 import '../../../../utils/app_colors.dart';
 import '../../../../utils/responsive_size.dart';
 
@@ -63,19 +64,16 @@ class NavTile extends StatelessWidget {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(
+                      AppText(
                         item.label,
-                        style:
-                            Theme.of(context).textTheme.titleMedium?.copyWith(
-                                  fontWeight: FontWeight.w600,
-                                ),
+                        fontSize: context.h(15),
+                        fontWeight: FontWeight.w600,
+                        color: AppColors.primaryText,
                       ),
-                      Text(
+                      AppText(
                         item.subtitle,
-                        style: Theme.of(context)
-                            .textTheme
-                            .bodySmall
-                            ?.copyWith(color: AppColors.secondaryText),
+                        fontSize: context.h(13),
+                        color: AppColors.secondaryText,
                       ),
                     ],
                   ),

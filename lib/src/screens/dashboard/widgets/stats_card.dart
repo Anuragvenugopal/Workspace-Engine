@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../../../core/widgets/app_text.dart';
 import '../../../../utils/app_colors.dart';
 import '../../../../utils/responsive_size.dart';
 
@@ -33,30 +34,18 @@ class StatsCard extends StatelessWidget {
         children: [
           Icon(icon, size: context.h(24), color: color),
           SizedBox(height: context.h(12)),
-          if (small)
-            Text(
-              value,
-              style: Theme.of(context).textTheme.titleSmall?.copyWith(
-                    fontWeight: FontWeight.bold,
-                    color: color,
-                    letterSpacing: 1.2,
-                  ),
-            )
-          else
-            Text(
-              value,
-              style: Theme.of(context).textTheme.headlineMedium?.copyWith(
-                    fontWeight: FontWeight.bold,
-                    color: color,
-                  ),
-            ),
+          AppText(
+            value,
+            fontSize: small ? context.h(14) : context.h(28),
+            fontWeight: FontWeight.bold,
+            color: color,
+          ),
           SizedBox(height: context.h(2)),
-          Text(
+          AppText(
             label,
-            style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                  color: AppColors.secondaryText,
-                  fontWeight: FontWeight.w500,
-                ),
+            fontSize: context.h(12),
+            color: AppColors.secondaryText,
+            fontWeight: FontWeight.w500,
           ),
         ],
       ),

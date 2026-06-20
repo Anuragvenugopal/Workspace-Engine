@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import '../../../../core/widgets/app_text.dart';
+import '../../../../utils/app_colors.dart';
 import '../../../../utils/responsive_size.dart';
 
 class SquareCard extends StatelessWidget {
@@ -19,7 +21,7 @@ class SquareCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Material(
-      color: Colors.transparent,
+      color: AppColors.transparent,
       child: InkWell(
         onTap: () => context.push(route),
         borderRadius: BorderRadius.circular(24),
@@ -27,12 +29,12 @@ class SquareCard extends StatelessWidget {
           width: context.w(140),
           height: context.h(120),
           decoration: BoxDecoration(
-            color: Colors.white,
+            color: AppColors.white,
             borderRadius: BorderRadius.circular(24),
             border: Border.all(color: color.withAlpha(50), width: 1.5),
             boxShadow: [
               BoxShadow(
-                color: Colors.black.withAlpha(5),
+                color: AppColors.primaryText.withAlpha(5),
                 blurRadius: 10,
                 offset: const Offset(0, 5),
               ),
@@ -41,19 +43,13 @@ class SquareCard extends StatelessWidget {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Icon(
-                icon,
-                size: context.h(36),
-                color: color,
-              ),
+              Icon(icon, size: context.h(36), color: color),
               SizedBox(height: context.h(16)),
-              Text(
+              AppText(
                 label,
-                style: TextStyle(
-                  fontSize: context.h(14),
-                  fontWeight: FontWeight.w600,
-                  color: Colors.black87,
-                ),
+                fontSize: context.h(14),
+                fontWeight: FontWeight.w600,
+                color: AppColors.black87,
               ),
             ],
           ),

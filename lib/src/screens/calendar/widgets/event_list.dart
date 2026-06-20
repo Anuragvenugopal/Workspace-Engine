@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:table_calendar/table_calendar.dart';
 
 import '../../../../core/theme/app_theme.dart';
+import '../../../../core/widgets/app_text.dart';
 import '../../../../features/profiles/domain/entities/todo.dart';
 import '../../../../providers/calendar_provider.dart';
 import '../../../../utils/app_colors.dart';
@@ -22,7 +23,7 @@ class EventList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final isCorporate = profileType == ProfileType.corporate;
-    
+
     final baseColor = AppTheme.getProfileColor(profileType);
     final color = isCorporate ? Colors.blueGrey[800]! : baseColor;
     final radius = isCorporate ? 0.0 : 12.0;
@@ -41,8 +42,7 @@ class EventList extends StatelessWidget {
             Icon(Icons.event_available_rounded,
                 size: context.h(48), color: color.withAlpha(100)),
             SizedBox(height: context.h(12)),
-            const Text('No events on this day',
-                style: TextStyle(color: AppColors.grey)),
+            const AppText.caption('No events on this day', color: AppColors.grey),
           ],
         ),
       );
@@ -67,13 +67,11 @@ class EventList extends StatelessWidget {
               Icon(isCorporate ? Icons.square : Icons.circle, size: context.h(10), color: color),
               SizedBox(width: context.w(12)),
               Expanded(
-                child: Text(
+                child: AppText(
                   event.title,
-                  style: TextStyle(
-                    fontWeight: FontWeight.w500,
-                    decoration: event.isCompleted ? TextDecoration.lineThrough : null,
-                    color: event.isCompleted ? AppColors.grey : Colors.black87,
-                  ),
+                  fontWeight: FontWeight.w500,
+                  decoration: event.isCompleted ? TextDecoration.lineThrough : null,
+                  color: event.isCompleted ? AppColors.grey : AppColors.black87,
                 ),
               ),
             ],

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import '../../../../core/theme/app_theme.dart';
+import '../../../../core/widgets/app_text.dart';
+import '../../../../utils/app_colors.dart';
 import '../../../../utils/responsive_size.dart';
 
 class DashboardBanner extends StatelessWidget {
@@ -55,38 +57,32 @@ class DashboardBanner extends StatelessWidget {
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(
+              AppText(
                 title,
-                style: TextStyle(
-                  fontSize: context.h(24),
-                  fontWeight: FontWeight.bold,
-                  color: activeColor,
-                ),
+                fontSize: context.h(24),
+                fontWeight: FontWeight.bold,
+                color: activeColor,
               ),
               SizedBox(height: context.h(4)),
-              Text(
+              AppText(
                 subtitle,
-                style: TextStyle(
-                  fontSize: context.h(16),
-                  fontWeight: FontWeight.w600,
-                  color: activeColor,
-                ),
+                fontSize: context.h(16),
+                fontWeight: FontWeight.w600,
+                color: activeColor,
               ),
               SizedBox(height: context.h(24)),
-              Text(
+              AppText(
                 '$completedTasks out of $totalTasks tasks are completed',
-                style: TextStyle(
-                  fontSize: context.h(12),
-                  color: Colors.black54,
-                  fontWeight: FontWeight.w500,
-                ),
+                fontSize: context.h(12),
+                color: AppColors.black54,
+                fontWeight: FontWeight.w500,
               ),
               SizedBox(height: context.h(12)),
               Container(
                 width: context.w(180),
                 height: context.h(10),
                 decoration: BoxDecoration(
-                  color: Colors.white,
+                  color: AppColors.white,
                   borderRadius: BorderRadius.circular(10),
                 ),
                 child: FractionallySizedBox(

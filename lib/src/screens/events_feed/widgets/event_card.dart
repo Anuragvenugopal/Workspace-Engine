@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 import 'package:shimmer/shimmer.dart';
 
+import '../../../../core/widgets/app_text.dart';
 import '../../../../features/events/domain/entities/global_event.dart';
 import '../../../../utils/app_colors.dart';
 import '../../../../utils/responsive_size.dart';
@@ -33,7 +34,7 @@ class EventCard extends StatelessWidget {
             mainAxisSize: MainAxisSize.min,
             children: [
               CachedNetworkImage(
-                imageUrl: event.imageUrl, // Use full image for header
+                imageUrl: event.imageUrl,
                 httpHeaders: const {'User-Agent': 'Mozilla/5.0'},
                 width: double.infinity,
                 height: context.h(140),
@@ -41,12 +42,12 @@ class EventCard extends StatelessWidget {
                 placeholder: (context, url) {
                   final isDark = Theme.of(context).brightness == Brightness.dark;
                   return Shimmer.fromColors(
-                    baseColor: isDark ? Colors.grey[800]! : Colors.grey[300]!,
-                    highlightColor: isDark ? Colors.grey[700]! : Colors.grey[100]!,
+                    baseColor: isDark ? AppColors.shimmerBaseDark : AppColors.shimmerBase,
+                    highlightColor: isDark ? AppColors.shimmerHighlightDark : AppColors.shimmerHighlight,
                     child: Container(
                       height: context.h(140),
                       width: double.infinity,
-                      color: Colors.white,
+                      color: AppColors.white,
                     ),
                   );
                 },
@@ -62,24 +63,19 @@ class EventCard extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(
+                    AppText(
                       event.title,
-                      style: TextStyle(
-                        fontSize: context.h(18),
-                        fontWeight: FontWeight.bold,
-                        color: Colors.black87,
-                      ),
+                      fontSize: context.h(18),
+                      fontWeight: FontWeight.bold,
+                      color: AppColors.black87,
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
                     ),
                     SizedBox(height: context.h(8)),
-                    Text(
+                    AppText(
                       event.description,
-                      style: TextStyle(
-                        fontSize: context.h(14),
-                        height: 1.4,
-                        color: Colors.black54,
-                      ),
+                      fontSize: context.h(14),
+                      color: AppColors.black54,
                       maxLines: 2,
                       overflow: TextOverflow.ellipsis,
                     ),
@@ -89,12 +85,11 @@ class EventCard extends StatelessWidget {
                         Icon(Icons.calendar_today_rounded,
                             size: context.h(16), color: color),
                         SizedBox(width: context.w(6)),
-                        Text(
+                        AppText(
                           DateFormat('MMMM dd, yyyy').format(event.eventDate),
-                          style: TextStyle(
-                              fontSize: context.h(13),
-                              color: color,
-                              fontWeight: FontWeight.w600),
+                          fontSize: context.h(13),
+                          color: color,
+                          fontWeight: FontWeight.w600,
                         ),
                         const Spacer(),
                         Icon(Icons.arrow_forward_rounded,
