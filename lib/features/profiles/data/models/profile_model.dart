@@ -10,7 +10,7 @@ class ProfileModel extends HiveObject {
   late String name;
 
   @HiveField(2)
-  late int typeIndex; // maps to ProfileType enum index
+  late int typeIndex; 
 
   @HiveField(3)
   late int colorValue;

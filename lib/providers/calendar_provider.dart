@@ -3,7 +3,6 @@ import 'package:flutter/foundation.dart';
 import 'package:injectable/injectable.dart';
 import 'package:table_calendar/table_calendar.dart';
 
-// ─── State ───────────────────────────────────────────────────────────────────
 
 class CalendarState extends Equatable {
   final DateTime focusedDay;
@@ -36,7 +35,6 @@ class CalendarState extends Equatable {
   List<Object?> get props => [focusedDay, selectedDay, calendarFormat, events];
 }
 
-// ─── Provider ────────────────────────────────────────────────────────────────
 
 @injectable
 class CalendarProvider extends ChangeNotifier {

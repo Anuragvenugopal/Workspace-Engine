@@ -16,7 +16,6 @@ class MockToggleTodoUseCase extends Mock implements ToggleTodoUseCase {}
 
 class MockDeleteTodoUseCase extends Mock implements DeleteTodoUseCase {}
 
-// ─── Helpers ─────────────────────────────────────────────────────────────────
 
 Todo _makeTodo(String id, {bool completed = false}) => Todo(
       id: id,
@@ -27,7 +26,6 @@ Todo _makeTodo(String id, {bool completed = false}) => Todo(
       createdAt: DateTime(2025, 1, 1),
     );
 
-// ─── Tests ───────────────────────────────────────────────────────────────────
 
 void main() {
   late MockGetTodosForProfileUseCase mockGetTodos;

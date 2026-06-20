@@ -5,7 +5,6 @@ import 'package:injectable/injectable.dart';
 import '../features/profiles/domain/entities/todo.dart';
 import '../features/profiles/domain/usecases/profile_usecases.dart';
 
-// ─── State ───────────────────────────────────────────────────────────────────
 
 abstract class TodoState extends Equatable {
   const TodoState();
@@ -44,7 +43,6 @@ class TodoError extends TodoState {
   List<Object?> get props => [message];
 }
 
-// ─── Provider ────────────────────────────────────────────────────────────────
 
 @injectable
 class TodoProvider extends ChangeNotifier {

@@ -45,7 +45,6 @@ class _DashboardPageState extends State<DashboardPage> {
 
         final activeProfile = profileState.activeProfile;
         
-        // Sync TodoProvider so the recent tasks list updates correctly
         if (activeProfile != null && context.read<TodoProvider>().currentProfileId != activeProfile.id) {
           WidgetsBinding.instance.addPostFrameCallback((_) {
             if (context.mounted) {
@@ -54,7 +53,6 @@ class _DashboardPageState extends State<DashboardPage> {
           });
         }
         
-        // Data for active profile card only
         if (activeProfile != null) {
           final todos = getTodos(activeProfile.id);
           completedTasks = todos.where((t) => t.isCompleted).length;

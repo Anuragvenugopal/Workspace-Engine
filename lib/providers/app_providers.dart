@@ -8,7 +8,6 @@ import 'events_provider.dart';
 import 'calendar_provider.dart';
 
 class AppProviders {
-  /// All global providers that wrap the entire application.
   static List<SingleChildWidget> get providers => [
         ChangeNotifierProvider<ProfileProvider>(
           create: (_) => getIt<ProfileProvider>()..initialize(),

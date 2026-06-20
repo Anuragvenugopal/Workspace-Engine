@@ -19,7 +19,6 @@ class ProfileLocalDatasource {
     await Hive.openBox<TodoModel>(_todoBoxName);
   }
 
-  // ─── Profile Operations ───────────────────────────────────────────────────
 
   List<ProfileModel> getProfiles() {
     return _profileBox.values.toList();
@@ -39,7 +38,6 @@ class ProfileLocalDatasource {
     await _todoBox.deleteAll(todosToDelete);
   }
 
-  // ─── Seed Default Profiles ──────────────────────────────────────────────
 
   Future<void> seedDefaultProfilesIfNeeded() async {
     if (_profileBox.isNotEmpty) return;
@@ -67,7 +65,6 @@ class ProfileLocalDatasource {
     return model;
   }
 
-  // ─── Todo Operations ──────────────────────────────────────────────────────
 
   List<TodoModel> getTodosForProfile(String profileId) {
     return _todoBox.values

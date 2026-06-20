@@ -5,7 +5,7 @@ import 'package:injectable/injectable.dart';
 import '../features/events/domain/entities/global_event.dart';
 import '../features/events/domain/usecases/event_usecases.dart';
 
-// ─── State ───────────────────────────────────────────────────────────────────
+
 
 abstract class EventsState extends Equatable {
   const EventsState();

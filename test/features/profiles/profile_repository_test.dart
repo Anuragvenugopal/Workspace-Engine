@@ -9,11 +9,9 @@ import 'package:workspace_engine/features/profiles/data/repositories/profile_rep
 import 'package:workspace_engine/features/profiles/domain/entities/profile.dart';
 import 'package:workspace_engine/features/profiles/domain/entities/todo.dart';
 
-// ─── Mocks ───────────────────────────────────────────────────────────────────
 
 class MockProfileLocalDatasource extends Mock implements ProfileLocalDatasource {}
 
-// ─── Helpers ─────────────────────────────────────────────────────────────────
 
 ProfileModel _makeProfileModel(String id, String name) {
   return ProfileModel()

@@ -6,7 +6,6 @@ import '../features/analytics/domain/usecases/log_profile_swapped_usecase.dart';
 import '../features/profiles/domain/entities/profile.dart';
 import '../features/profiles/domain/usecases/profile_usecases.dart';
 
-// ─── State ───────────────────────────────────────────────────────────────────
 
 class ProfileState extends Equatable {
   final List<Profile> profiles;
@@ -35,7 +34,6 @@ class ProfileState extends Equatable {
   List<Object?> get props => [profiles, activeProfile, isLoading];
 }
 
-// ─── Provider ────────────────────────────────────────────────────────────────
 
 @injectable
 class ProfileProvider extends ChangeNotifier {

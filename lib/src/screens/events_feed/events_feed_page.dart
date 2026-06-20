@@ -8,12 +8,7 @@ import 'widgets/events_list.dart';
 import 'widgets/error_view.dart';
 import 'widgets/event_card_shimmer.dart';
 import '../../../utils/responsive_size.dart';
-/// EventsFeedPage reads:
-///   1. [EventsProvider]  — global — event list
-///   2. [ProfileProvider] — global (root) — for accent color
-///
-/// EventsProvider is already initialized (loadEvents called) in the router's
-/// pageBuilder create callback, so this page just observes state.
+
 class EventsFeedPage extends StatelessWidget {
   const EventsFeedPage({super.key});
 

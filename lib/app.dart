@@ -6,9 +6,7 @@ import 'core/theme/app_theme.dart';
 
 import 'providers/profile_provider.dart';
 
-/// Root application widget.
-/// Global cubits (shared across the entire app) are provided here via
-/// [MultiBlocProvider] so they survive navigation and are never recreated.
+
 class WorkspaceEngineApp extends StatelessWidget {
   const WorkspaceEngineApp({super.key});
 
