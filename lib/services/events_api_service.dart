@@ -1,35 +1,23 @@
 import 'package:dio/dio.dart';
 import 'package:injectable/injectable.dart';
+import 'package:retrofit/retrofit.dart';
 
 import '../features/events/data/models/photo_response_model.dart';
 
+part 'events_api_service.g.dart';
+
 @singleton
-class EventsApiService {
-  final Dio _dio;
+@RestApi(baseUrl: 'https://jsonplaceholder.typicode.com')
+abstract class EventsApiService {
+  @factoryMethod
+  factory EventsApiService(Dio dio) = _EventsApiService;
 
-  EventsApiService(this._dio);
-
+  @GET('/photos')
   Future<List<PhotoResponseModel>> getPhotos({
-    int limit = 20,
-    int page = 1,
-  }) async {
-    final response = await _dio.get(
-      'https://jsonplaceholder.typicode.com/photos',
-      queryParameters: {
-        '_limit': limit,
-        '_page': page,
-      },
-    );
+    @Query('_limit') int limit = 20,
+    @Query('_page') int page = 1,
+  });
 
-    final data = response.data as List;
-    return data.map((json) => PhotoResponseModel.fromJson(json)).toList();
-  }
-
-  Future<PhotoResponseModel> getPhotoById(int id) async {
-    final response = await _dio.get(
-      'https://jsonplaceholder.typicode.com/photos/$id',
-    );
-
-    return PhotoResponseModel.fromJson(response.data);
-  }
+  @GET('/photos/{id}')
+  Future<PhotoResponseModel> getPhotoById(@Path('id') int id);
 }

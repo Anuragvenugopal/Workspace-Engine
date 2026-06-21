@@ -125,8 +125,8 @@ class _AddTodoSheetState extends State<AddTodoSheet> {
           TextField(
             controller: _descController,
             style: TextStyle(fontSize: context.h(14), color: Colors.black87),
-            maxLines: 3,
-            minLines: 1,
+            maxLines: 5,
+            minLines: 3,
             decoration: InputDecoration(
               hintText: 'Add details (optional)',
               hintStyle: TextStyle(color: Colors.black38, fontSize: context.h(14)),
