@@ -1,231 +1,77 @@
 # Workspace Engine
 
-A Flutter application that demonstrates offline-first profile management, profile-specific todo lists, remote API integration, dynamic theming, secure networking, and Clean Architecture using modern Flutter development practices.
----
+Multi-Profile Workspace Engine — an offline-first, multi-tenant Flutter application designed with modern architectural patterns and industry-standard tooling.
 
 ## Architecture Overview
 
-```
-lib/
-├── core/
-│   ├── analytics/          # Abstract AnalyticsService + Stub implementation
-│   ├── di/                 # get_it + injectable setup & generated config
-│   ├── env/                # envied strongly-typed environment variables
-│   ├── error/              # Domain Failure types
-│   ├── network/            # Dio singleton (NetworkModule) + AuthInterceptor
-│   ├── router/             # go_router configuration (5 routes)
-│   ├── storage/            # flutter_secure_storage wrapper
-│   └── theme/              # ProfileType-aware ThemeData factory
-├── features/
-│   ├── profiles/           # Profiles & Todos (Hive offline-first)
-│   │   ├── data/
-│   │   │   ├── datasources/   # ProfileLocalDatasource (Hive boxes)
-│   │   │   ├── models/        # ProfileModel, TodoModel (HiveType adapters)
-│   │   │   └── repositories/  # ProfileRepositoryImpl
-│   │   ├── domain/
-│   │   │   ├── entities/      # Profile, Todo (freezed, immutable)
-│   │   │   ├── repositories/  # ProfileRepository (abstract)
-│   │   │   └── usecases/      # GetProfiles, AddTodo, ToggleTodo, DeleteTodo, Seed
-│   │   └── presentation/
-│   │       ├── cubit/         # ProfileCubit (global), TodoCubit (page-scoped)
-│   │       ├── pages/         # DashboardPage, TodoManagerPage
-│   │       └── widgets/       # ProfileSelector, StatsCard
-│   ├── events/             # Global Events (Dio API service)
-│   │   ├── data/
-│   │   │   ├── datasources/   # EventsApiService (Dio, Retrofit-style)
-│   │   │   ├── models/        # PhotoResponseModel (json_serializable)
-│   │   │   └── repositories/  # EventRepositoryImpl (maps DTO → entity)
-│   │   ├── domain/
-│   │   │   ├── entities/      # GlobalEvent (freezed)
-│   │   │   ├── repositories/  # EventRepository (abstract)
-│   │   │   └── usecases/      # GetEventsUseCase, GetEventByIdUseCase
-│   │   └── presentation/
-│   │       ├── cubit/         # EventsCubit (page-scoped)
-│   │       └── pages/         # EventsFeedPage, EventDetailsPage
-│   └── calendar/           # Calendar with profile-adaptive styling
-│       └── presentation/
-│           ├── cubit/         # CalendarCubit (page-scoped)
-│           └── pages/         # CalendarPage
-├── app.dart                # Root widget — MultiBlocProvider (global cubits)
-└── main.dart               # Entry: Hive init → DI → runApp
-```
+This application follows **Clean Architecture** principles combined with a **Feature-based Folder Structure**. The codebase is modular, highly testable, and strictly separates concerns into three distinct layers:
+- **Presentation**: UI screens, widgets, and state management (`Provider`).
+- **Domain**: Immutable entities (using `freezed`), abstract repository interfaces, and business logic encapsulated within UseCases.
+- **Data**: Data source implementations (Local & Remote), DTOs, and Repository Implementations.
 
-### Layer Responsibilities
-
-| Layer | Responsibility |
-|-------|---------------|
-| **Data** | DTOs, Hive models, API services, repository implementations |
-| **Domain** | Entities (freezed), abstract repositories, use-cases |
-| **Presentation** | Cubits (state), Pages (UI), Widgets (pure/dumb) |
-| **Core** | DI, routing, theme, networking, analytics, storage, env |
-
----
-
-## Provider / BLoC Usage Rules
-
-| Rule | Implementation |
-|---|---|
-| Global cubits live at root | `ProfileCubit` in `MultiBlocProvider` in `app.dart` |
-| Page-scoped cubits live in router | `TodoCubit`, `EventsCubit`, `CalendarCubit` in `pageBuilder` |
-| `context.read<T>()` | Event handlers, initState, BlocListener callbacks only |
-| `context.select<T, R>()` | Efficient partial rebuilds (e.g., profileType only) |
-| `BlocBuilder<T, S>` | All reactive UI — never in creation callbacks |
-| Pure widgets | `ProfileSelector`, `StatsCard`, `_NavTile` — zero cubit access |
-
----
+Compile-time **Dependency Injection** is handled using `get_it` and `injectable`.
 
 ## Data Models
 
-### Profile (domain entity)
-```dart
-@freezed class Profile {
-  String id, name;
-  ProfileType type;   // personal | work | corporate | creative
-  int colorValue;
-  DateTime createdAt;
-}
-```
-
-### Todo (domain entity)
-```dart
-@freezed class Todo {
-  String id, title, profileId;
-  bool isCompleted;
-  DateTime createdAt;
-}
-```
-
-### GlobalEvent (domain entity)
-```dart
-@freezed class GlobalEvent {
-  int id;
-  String title, description, imageUrl, thumbnailUrl;
-  DateTime eventDate;   // programmatically generated
-}
-```
-
----
+The app relies heavily on **Immutable Domain Models** generated via the `freezed` and `json_serializable` packages.
+- **Profile**: Represents a local workspace tenant (e.g., Personal, Work, Corporate, Creative) containing a unique theme and color scheme.
+- **Todo**: Tasks specifically tied to a `Profile`.
+- **GlobalEvent**: A domain entity representing events fetched from a remote API.
+- **PhotoResponseModel**: The DTO layer mapping the JSON API response to the Dart class.
 
 ## Local Storage Strategy
 
-- **Technology**: `hive_flutter` with custom `TypeAdapter`s
-- **Box structure**: One box per model type (`profiles`, `todos`)
-- **Profile isolation**: Todos are scoped by `profileId` foreign key
-- **Cascade delete**: Deleting a profile removes all its todos
-- **Seeding**: 4 default profiles (Personal, Work, Corporate, Creative) created on first launch
-- **Adapters**: Hand-written `TypeAdapter`s in `*.g.dart` files (equivalent to `hive_generator` output)
-
----
+The app utilizes **Hive** as its local, offline-first database. 
+- **TypeAdapters**: Configured via `hive_generator` for both `ProfileModel` and `TodoModel`.
+- **Data Isolation**: Todos are strictly bound to a specific Profile ID, ensuring complete multi-tenant isolation.
+- **Performance**: Hive provides instant read/write capabilities, allowing for instant UI refresh when swapping profiles.
 
 ## Networking Setup
 
-```
-Request Flow:
-  App → Dio → AuthInterceptor → API
-               ↓
-     Reads token from flutter_secure_storage
-     Falls back to AppEnv.authToken (envied)
-     Injects: Authorization: Bearer <token>
-```
-
-- **Client**: `Dio` singleton provided via `@module` in `NetworkModule`
-- **Interceptor**: `AuthInterceptor` — reads from `SecureStorageService`, falls back to env token
-- **Logging**: `PrettyDioLogger` for development debugging
-- **API service**: `EventsApiService` using Dio directly (Retrofit-style interface)
-- **Timeouts**: 30s connect / receive / send
-
----
+Networking is powered by **Dio** and **Retrofit**.
+- **Retrofit**: The `EventsApiService` uses Retrofit annotations (`@RestApi`, `@GET`) to generate a type-safe HTTP client for the remote JSONPlaceholder API.
+- **Interceptors**: A custom `AuthInterceptor` is injected into the `Dio` instance to automatically attach Authorization headers to outgoing requests.
+- **Image Caching**: Images fetched from the API are cached locally using `cached_network_image` to minimize bandwidth and improve load times.
 
 ## Environment Configuration
 
-1. Copy `.env.example` to `.env`:
-   ```bash
-   cp .env.example .env
-   ```
-
-2. Set your values:
-   ```
-   API_BASE_URL=https://jsonplaceholder.typicode.com
-   AUTH_TOKEN=your_token_here
-   ```
-
-3. The `envied` package reads `.env` at **build time** via `build_runner` and generates
-   `lib/core/env/app_env.g.dart` with obfuscated values. The `.env` file is included
-   as a Flutter asset so it's accessible during codegen.
-
-> **Note**: `.env` should be in `.gitignore` in production. The included file uses a
-> placeholder token safe for the assessment.
-
----
+Environment variables are managed using the **envied** package.
+- Variables such as `API_BASE_URL` and `AUTH_TOKEN` are defined in a `.env` file.
+- `envied` obfuscates these variables and compiles them directly into `app_env.g.dart` to prevent plain-text extraction from the compiled binary.
+- This provides compile-time type safety for all environment configurations.
 
 ## Build Instructions
 
 ### Prerequisites
-- Flutter 3.44+
-- Dart SDK 3.8+
+- Flutter SDK 3.19+ (or as specified in `pubspec.yaml`)
+- A `.env` file placed at the root of the project with the following keys:
+  ```env
+  API_BASE_URL=https://jsonplaceholder.typicode.com
+  AUTH_TOKEN=your_secure_token_here
+  ```
 
-### Setup
+### Code Generation
+Because this project relies on generated code (`freezed`, `json_serializable`, `injectable`, `retrofit`, `hive_generator`, `envied`), you must run the build runner before launching the app for the first time, or after making changes to models/services.
 
 ```bash
-# Install dependencies
+# Get dependencies
 flutter pub get
 
-# Generate code (freezed, json_serializable, injectable, envied)
+# Generate boilerplate code
 dart run build_runner build --delete-conflicting-outputs
 ```
 
-### Run
-
+### Run the App
 ```bash
 flutter run
 ```
 
-### Test
-
+### Build for Production
+To build the Android APK:
 ```bash
-flutter test
+flutter build apk --release
 ```
-
-### Analyze
-
+To build the iOS IPA:
 ```bash
-flutter analyze
+flutter build ipa --release
 ```
-
----
-
-## Dependency Injection Registry
-
-All registrations are in the generated `lib/core/di/injection.config.dart`:
-
-| Service | Scope |
-|---------|-------|
-| `Dio` | Singleton (via `@module`) |
-| `AuthInterceptor` | Singleton |
-| `SecureStorageService` | Singleton |
-| `EventsApiService` | Singleton |
-| `ProfileLocalDatasource` | Singleton |
-| `AnalyticsService` (stub) | Lazy Singleton |
-| `ProfileRepository` | Lazy Singleton |
-| `EventRepository` | Lazy Singleton |
-| All UseCases | Factory |
-| All Cubits | Factory |
-
----
-
-## Dynamic Branding
-
-| Profile | Corners | Colors | Calendar Cells |
-|---------|---------|--------|----------------|
-| Corporate | Sharp (0px) | Monochrome (navy) | Rectangle, no margin |
-| Creative | Rounded (20px) | Vibrant (purple/pink) | Circle, glow shadow |
-| Personal | Rounded (12px) | Sky blue / cyan | Circle |
-| Work | Rounded (8px) | Emerald green | Circle |
-
----
-
-## Analytics
-
-- Custom event `profile_swapped` logged on every profile switch via `ProfileCubit.switchProfile()`
-- Firebase: add `google-services.json` (Android) and `GoogleService-Info.plist` (iOS) and swap `StubAnalyticsService` for `FirebaseAnalyticsService` in `@LazySingleton` annotation
-- All analytics calls go through the abstract `AnalyticsService` interface — the concrete implementation is swappable without changing any feature code
