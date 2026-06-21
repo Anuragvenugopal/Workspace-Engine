@@ -8,8 +8,10 @@ import '../../src/screens/event_details/event_details_page.dart';
 import '../../src/screens/events_feed/events_feed_page.dart';
 import '../../src/screens/dashboard/dashboard_page.dart';
 import '../../src/screens/todo_manager/todo_manager_page.dart';
+import '../../src/screens/splash/splash_page.dart';
 
 class AppRoutes {
+  static const String splash = '/splash';
   static const String dashboard = '/';
   static const String todos = '/todos';
   static const String events = '/events';
@@ -21,9 +23,15 @@ class AppRoutes {
 ///  - Automatically disposed when the route is popped
 ///  - Never recreated on widget rebuilds
 final GoRouter appRouter = GoRouter(
-  initialLocation: AppRoutes.dashboard,
+  initialLocation: AppRoutes.splash,
   debugLogDiagnostics: true,
   routes: [
+    // ── Splash: shown on cold-start, navigates to dashboard after init
+    GoRoute(
+      path: AppRoutes.splash,
+      name: 'splash',
+      builder: (context, state) => const SplashPage(),
+    ),
     // ── Dashboard: no page-scoped provider needed;
     //    it reads the global ProfileProvider via context.read<ProfileProvider>()
     GoRoute(

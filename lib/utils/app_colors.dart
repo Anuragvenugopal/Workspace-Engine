@@ -31,6 +31,12 @@ class AppColors {
   static const Color success = Color(0xFF10B981);
   static const Color star = Color(0xFFFFB020);
 
+  // ─── Profile Colors ───────────────────────────────────────────────────────
+  static const Color corporate = Color(0xFF1A1A2E);
+  static const Color work = Color(0xFF059669);
+  static const Color personal = Color(0xFF0EA5E9);
+  static const Color creative = Color(0xFF7C3AED);
+
   // ─── Shimmer ──────────────────────────────────────────────────────────────
   static const Color shimmerBase = Color(0xFFE0E0E0);
   static const Color shimmerHighlight = Color(0xFFF5F5F5);

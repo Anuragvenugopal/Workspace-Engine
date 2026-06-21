@@ -75,6 +75,19 @@ dev_dependencies:
   # Testing
   mocktail: ^1.0.4
 
+  # App Icon Generator
+  flutter_launcher_icons: ^0.14.3
+
+flutter_launcher_icons:
+  android: true
+  ios: true
+  windows:
+    generate: true
+    image_path: "assets/images/App_icon.png"
+    icon_size: 48
+  image_path: "assets/images/App_icon.png"
+  remove_alpha_ios: true
+
 flutter:
   uses-material-design: true
   assets:

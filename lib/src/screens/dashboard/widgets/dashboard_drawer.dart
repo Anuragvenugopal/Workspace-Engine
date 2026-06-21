@@ -33,22 +33,34 @@ class DashboardDrawer extends StatelessWidget {
             child: Column(
               mainAxisSize: MainAxisSize.max,
               children: [
-                Container(
-                  width: context.h(100),
-                  height: context.h(100),
-                  margin: EdgeInsets.only(bottom: context.h(24)),
-                  clipBehavior: Clip.antiAlias,
-                  decoration: const BoxDecoration(
-                    color: Color(0x42000000),
-                    shape: BoxShape.circle,
-                  ),
-                  child: Image.asset(
-                    'assets/images/home_image.png',
-                    fit: BoxFit.cover,
-                    errorBuilder: (context, error, stackTrace) => const Icon(
-                      Icons.person,
-                      size: 50,
-                      color: AppColors.white,
+                AnimatedSwitcher(
+                  duration: const Duration(milliseconds: 350),
+                  transitionBuilder: (child, animation) =>
+                      FadeTransition(opacity: animation, child: child),
+                  child: Container(
+                    key: ValueKey(activeProfile?.type),
+                    width: context.h(100),
+                    height: context.h(100),
+                    margin: EdgeInsets.only(bottom: context.h(24)),
+                    clipBehavior: Clip.antiAlias,
+                    decoration: BoxDecoration(
+                      color: const Color(0x42000000),
+                      shape: BoxShape.circle,
+                      border: Border.all(
+                        color: AppColors.white.withAlpha(120),
+                        width: 2.5,
+                      ),
+                    ),
+                    child: Image.asset(
+                      activeProfile != null
+                          ? AppTheme.getProfileImage(activeProfile!.type)
+                          : 'assets/images/home_image.png',
+                      fit: BoxFit.cover,
+                      errorBuilder: (context, error, stackTrace) => const Icon(
+                        Icons.person,
+                        size: 50,
+                        color: AppColors.white,
+                      ),
                     ),
                   ),
                 ),

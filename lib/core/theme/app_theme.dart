@@ -72,8 +72,8 @@ class AppTheme {
         elevation: 0,
         centerTitle: false,
       ),
-      floatingActionButtonTheme: const FloatingActionButtonThemeData(
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.zero),
+      floatingActionButtonTheme: FloatingActionButtonThemeData(
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
         backgroundColor: _corporatePrimary,
         foregroundColor: Colors.white,
       ),
@@ -256,6 +256,19 @@ class AppTheme {
         return Icons.person_rounded;
       case ProfileType.work:
         return Icons.work_rounded;
+    }
+  }
+
+  static String getProfileImage(ProfileType type) {
+    switch (type) {
+      case ProfileType.corporate:
+        return 'assets/images/corprate_image.png';
+      case ProfileType.creative:
+        return 'assets/images/creative_profile.png';
+      case ProfileType.personal:
+        return 'assets/images/perosnal_profile.png';
+      case ProfileType.work:
+        return 'assets/images/work_profile.png';
     }
   }
 }
